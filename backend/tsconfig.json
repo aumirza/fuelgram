@@ -2,6 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es2018",
+    "types": ["node"],
     "moduleResolution": "node",
     "allowJs": true,
     "checkJs": true,
@@ -10,12 +11,9 @@
     "strict": true,
     "esModuleInterop": true
   },
-  "typeRoots": [
-    "./global.d.ts",
-    "./src/types",
-    "./node_modules/@types"
-  ],
+  "typeRoots": ["./global.d.ts", "./src/types", "./node_modules/@types"],
   "include": [
     "src/**/*.ts", // Every ts file inside src folder
-  ],
+    "*.ts"
+  ]
 }
