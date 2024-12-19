@@ -10,4 +10,4 @@ dotenv.config(dotenvConfig);
 export const PORT = normalizePort(process.env.PORT || 5000);
 export const APP_SECRET = process.env.APP_SECRET || "secret";
 export const DB_URL =
-  process.env.DB_URL || "pg://postgres:postgres@localhost:5432/postgres";
+  process.env.DATABASE_URL ?? "pg://postgres:postgres@localhost:5432/postgres";
