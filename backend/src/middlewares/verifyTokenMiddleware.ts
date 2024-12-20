@@ -19,7 +19,7 @@ export async function verifyToken(
 
   try {
     // verify token
-    const decoded = await AuthService.verifyToken(token);
+    const decoded = await AuthService.verifyAccessToken(token);
     const userId = (decoded as IUserPublic).id;
     const user = await UserService.findById(userId);
     // set req.user to the user in the token

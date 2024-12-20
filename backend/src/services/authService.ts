@@ -10,15 +10,18 @@ export class AuthService {
   }
 
   static async generateAccessToken(user: IUserPublic) {
-    const accessToken = await generateSignedToken(user, "30m");
+    const accessToken = await generateSignedToken(user, "accessToken");
     return accessToken;
   }
 
   static async generateRefreshToken(user: IUserPublic) {
-    const refreshToken = await generateSignedToken(user, "7d");
+    const refreshToken = await generateSignedToken(user, "refreshToken");
     return refreshToken;
   }
-  static async verifyToken(token: string) {
-    return verifyToken(token);
+  static async verifyAccessToken(token: string) {
+    return verifyToken(token, "accessToken");
+  }
+  static async verifyRefreshToken(token: string) {
+    return verifyToken(token, "refreshToken");
   }
 }

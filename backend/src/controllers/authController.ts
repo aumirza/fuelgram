@@ -64,7 +64,13 @@ class AuthController {
   async refreshToken(req: Request, res: Response, next: NextFunction) {
     try {
       const { refreshToken } = req.body;
-      const user = (await AuthService.verifyToken(refreshToken)) as IUserPublic;
+      if (!refreshToken) {
+        res.status(400).json({ message: "Refresh token is required" });
+        return;
+      }
+
+      const decoded = await AuthService.verifyRefreshToken(refreshToken);
+      const user = publicUserSchema.parse(decoded);
       const tokens = await AuthService.generateTokens(user);
 
       res.status(200).json({
