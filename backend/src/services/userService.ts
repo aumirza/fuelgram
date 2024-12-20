@@ -102,7 +102,7 @@ export class UserService {
     }
   }
 
-  static async findUserById(id: number) {
+  static async findById(id: number) {
     try {
       const user = await db.query.users.findFirst({
         where: (user, { eq }) => eq(user.id, id),
