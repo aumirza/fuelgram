@@ -1,5 +1,4 @@
 import { integer, pgTable, timestamp, varchar } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
 
 export const timestamps = {
   createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -17,10 +16,6 @@ export const users = pgTable("users", {
   password: varchar("password", { length: 255 }).notNull(),
   ...timestamps,
 });
-
-export const userInsertSchema = createInsertSchema(users);
-
-export type IUser = typeof users.$inferSelect;
 
 export const mediaGalleries = pgTable("media_galleries", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
