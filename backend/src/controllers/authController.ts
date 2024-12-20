@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { UserService } from "../services/userService";
 import { publicUserSchema } from "../schemas";
+import { AuthService } from "../services/authService";
+import { IUserPublic } from "../types/user";
 class AuthController {
   async login(req: Request, res: Response, next: NextFunction) {
     const { email, password, username } = req.body;
@@ -21,10 +23,17 @@ class AuthController {
         return;
       }
 
+      const tokens = await AuthService.generateTokens(
+        publicUserSchema.parse(user)
+      );
+
       res.status(200).json({
         success: true,
         message: "User logged in successfully",
-        data: publicUserSchema.parse(user),
+        data: {
+          user: publicUserSchema.parse(user),
+          ...tokens,
+        },
       });
     } catch (error) {
       next(error);
@@ -48,6 +57,39 @@ class AuthController {
       });
       return;
     } catch (error: any) {
+      next(error);
+    }
+  }
+
+  async refreshToken(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { refreshToken } = req.body;
+      const user = (await AuthService.verifyToken(refreshToken)) as IUserPublic;
+      const tokens = await AuthService.generateTokens(user);
+
+      res.status(200).json({
+        success: true,
+        message: "Token generated",
+        data: {
+          user,
+          ...tokens,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async logout(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { refreshToken } = req.body;
+      // await AuthService.revokeToken(refreshToken);
+
+      res.status(200).json({
+        success: true,
+        message: "Token revoked",
+      });
+    } catch (error) {
       next(error);
     }
   }
