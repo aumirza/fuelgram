@@ -3,6 +3,8 @@ import { Request, Response, NextFunction } from "express";
 import { DatabaseError } from "pg";
 import { ZodError } from "zod";
 import { Conflict } from "http-errors";
+import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
+import { formatZodError } from "../utils/formatZodError";
 
 export function errorHandler(
   err: any,
@@ -17,9 +19,29 @@ export function errorHandler(
   // log the error
   console.error(err);
 
-  // handle db errors
-  if (err instanceof DatabaseError) {
-    res.status(500).json({ message: "Database error", error: err.message });
+  if (err instanceof JsonWebTokenError || err instanceof TokenExpiredError) {
+    res.status(401).json({ message: "Invalid token", error: err.message });
+    return;
+  }
+
+  // validation error
+  if (err instanceof ZodError) {
+    // console.error(error.errors);
+    res.status(500).json({
+      success: false,
+      message: "Invalid input",
+      error: formatZodError(err),
+    });
+    return;
+  }
+
+  // conflicts like user already exist
+  if (err instanceof Conflict) {
+    res.status(err.statusCode).json({
+      error: err.name,
+      message: err.message,
+      // ...(err.metadata && { metadata: err.metadata }), // Include metadata if available
+    });
     return;
   }
 
@@ -30,31 +52,16 @@ export function errorHandler(
     return;
   }
 
-  if (err instanceof ZodError) {
-    // console.error(error.errors);
-    res.status(500).json({
-      success: false,
-      message: "Invalid input",
-      error: {
-        message: err.message,
-        fields: err.errors.map((e) => ({
-          field: e.path.join("."),
-          message: e.message,
-        })),
-      },
-    });
+  // handle db errors
+  if (err instanceof DatabaseError) {
+    res.status(500).json({ message: "Database error", error: err.message });
     return;
   }
 
-  if (err instanceof Conflict) {
-    res.status(err.statusCode).json({
-      error: err.name,
-      message: err.message,
-      ...(err.metadata && { metadata: err.metadata }), // Include metadata if available
-    });
-    return;
-  }
+  // rout not found
 
   // return the error
-  res.status(err.status || 500).json({ message: err.message, error: err });
+  res
+    .status(err.status || 500)
+    .json({ message: "Internal Server Error", error: err });
 }
