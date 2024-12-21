@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { UserService } from "../services/userService";
 import { publicUserSchema } from "../schemas";
 import { AuthService } from "../services/authService";
-import { IUserPublic } from "../types/user";
 class AuthController {
   async login(req: Request, res: Response, next: NextFunction) {
     const { email, password, username } = req.body;
