@@ -38,7 +38,7 @@ export async function generateSignedToken(
     | "activationToken"
     | "resetPasswordToken",
   expiresIn: string = "1h"
-) {
+): Promise<jwtToken> {
   const token = sign(payload, jwtConfig[tokenType].secret, {
     expiresIn: jwtConfig[tokenType].expiresIn,
   });
