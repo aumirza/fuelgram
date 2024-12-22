@@ -17,6 +17,20 @@ export const users = pgTable("users", {
   ...timestamps,
 });
 
+export const sessions = pgTable("sessions", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer("user_id")
+    .notNull()
+    .references(() => users.id),
+  ipAddress: varchar("ip_address", { length: 255 }).notNull(),
+  userAgent: varchar("user_agent", { length: 255 }).notNull(),
+  deviceInfo: varchar("device_info", { length: 255 }).notNull(),
+  refreshTokenHash: varchar("refresh_token_hash", { length: 255 }).notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  revokedAt: timestamp("revoked_at"),
+  ...timestamps,
+});
+
 export const mediaGalleries = pgTable("media_galleries", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   ...timestamps,
