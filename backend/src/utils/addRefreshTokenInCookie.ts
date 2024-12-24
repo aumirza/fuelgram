@@ -1,3 +1,4 @@
+import { jwtToken } from "@fuelgram/shared/types";
 import { Response } from "express";
 
 export function addRefreshTokenInCookie(res: Response, refreshToken: jwtToken) {

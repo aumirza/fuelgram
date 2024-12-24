@@ -1,5 +1,6 @@
 import { sign, verify } from "jsonwebtoken";
 import ms from "ms";
+import { jwtToken } from "@fuelgram/shared/types";
 import {
   ACCESS_TOKEN_EXPIRES_IN,
   ACCESS_TOKEN_SECRET,
