@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@fuelfram/shared*": ["./packages/shared/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

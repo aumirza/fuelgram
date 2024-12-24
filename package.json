@@ -1,0 +1,17 @@
+{
+  "name": "fuelgram",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev"
+  },
+  "workspaces": {
+    "packages": [
+      "frontend",
+      "backend",
+      "packages/*"
+    ]
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3"
+  }
+}
