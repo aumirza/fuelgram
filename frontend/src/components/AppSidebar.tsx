@@ -11,22 +11,39 @@ import {
 } from "./ui/sidebar";
 import { NavLink } from "react-router";
 
+const navMenu = [
+  {
+    title: "Home",
+    link: "/",
+    icon: HomeIcon,
+  },
+];
+
 function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Fuelgram</SidebarGroupLabel>
-          <SidebarGroupContent>
+          <SidebarGroupLabel className="px-5" asChild>
+            <h2>
+              <span className="text-2xl text-gray-900">Fuelgram</span>
+            </h2>
+          </SidebarGroupLabel>
+          <SidebarGroupContent className="mt-3">
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <NavLink to="/">
-                    <HomeIcon />
-                    Home
-                  </NavLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {navMenu.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    className="h-12 text-xl font-medium"
+                    asChild
+                  >
+                    <NavLink to={item.link}>
+                      <item.icon className="!size-7" />
+                      <span>{item.title}</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
