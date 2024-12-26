@@ -21,7 +21,15 @@ function CreateFuelModel() {
           </div>
         </div>
       }
-      action={<Button>Submit</Button>}
+      action={
+        <div className="flex justify-between w-full">
+          <div className="flex">
+            <AttachFileIcon />
+            <MapPinIcon />
+          </div>
+          <Button className="">Fuelup</Button>
+        </div>
+      }
     >
       <CreateFuelForm />
     </Modal>

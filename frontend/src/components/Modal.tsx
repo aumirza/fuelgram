@@ -24,7 +24,7 @@ function Modal({
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle className="text-xl">{title}</DialogTitle>
         </DialogHeader>
         {children}
         {action ? <DialogFooter>{action}</DialogFooter> : null}

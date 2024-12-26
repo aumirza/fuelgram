@@ -1,9 +1,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { Form, FormControl, FormField, FormItem } from "../ui/form";
 import { createFuelFormSchema } from "@/schemas/createFuelFormSchame";
 import { z } from "zod";
-import { Input } from "../ui/input";
 
 function CreateFuelForm() {
   const form = useForm<z.infer<typeof createFuelFormSchema>>({
@@ -25,9 +24,12 @@ function CreateFuelForm() {
           name="content"
           render={(field) => (
             <FormItem>
-              <FormLabel>Content</FormLabel>
               <FormControl>
-                <Input placeholder="Content" {...field} />
+                <textarea
+                  className="w-full h-20 p-1 border-2 rounded-md placeholder:text-xl ring-0"
+                  placeholder="Creative thought!"
+                  {...field}
+                />
               </FormControl>
             </FormItem>
           )}
