@@ -2,14 +2,19 @@ import { HomeIcon } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarRail,
+  useSidebar,
 } from "./ui/sidebar";
 import { NavLink } from "react-router";
+import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 
 const navMenu = [
   {
@@ -20,25 +25,43 @@ const navMenu = [
 ];
 
 function AppSidebar() {
+  const { open } = useSidebar();
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
+      <SidebarHeader
+        className={cn("flex justify-center h-16", !open ? "items-center" : "")}
+      >
+        <NavLink to="/" className="flex items-center">
+          {open ? (
+            <span className="text-2xl font-bold">Fuelgram</span>
+          ) : (
+            <span className="text-4xl font-bold">F</span>
+          )}
+        </NavLink>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="px-5" asChild>
-            <h2>
-              <span className="text-2xl text-gray-900">Fuelgram</span>
-            </h2>
-          </SidebarGroupLabel>
-          <SidebarGroupContent className="mt-3">
+          <SidebarGroupContent>
             <SidebarMenu>
               {navMenu.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem
+                  key={item.title}
+                  className={cn("", open ?? "flex items-center justify-center")}
+                >
                   <SidebarMenuButton
-                    className="h-12 text-xl font-medium"
                     asChild
+                    className={cn(
+                      "",
+                      open ?? "flex items-center justify-center"
+                    )}
                   >
                     <NavLink to={item.link}>
-                      <item.icon className="!size-7" />
+                      <item.icon
+                        className={cn(
+                          "transition-all duration-200",
+                          open ? "!size-7" : "!size-6"
+                        )}
+                      />
                       <span>{item.title}</span>
                     </NavLink>
                   </SidebarMenuButton>
@@ -48,6 +71,22 @@ function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarRail />
+      {open && (
+        <SidebarFooter>
+          <Button className="w-full" variant="outline">
+            <span>use</span>
+            <kbd className="select-none items-center  rounded border bg-muted px-1.5 font-mono font-medium ">
+              <span className="text-xs">ctrl</span>
+            </kbd>
+            <span>+</span>
+            <kbd className="select-none items-center rounded border bg-muted px-1.5 font-mono font-medium">
+              <span className="text-xs">b</span>
+            </kbd>
+            <span>to to toggle</span>
+          </Button>
+        </SidebarFooter>
+      )}
     </Sidebar>
   );
 }

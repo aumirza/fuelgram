@@ -5,7 +5,13 @@ import Header from "./Header";
 
 function Layout() {
   return (
-    <SidebarProvider>
+    <SidebarProvider
+      style={{
+        // "--sidebar-width": "20rem",
+        "--sidebar-width-icon": "3.5rem",
+        // "--sidebar-width-mobile": "20rem",
+      }}
+    >
       <AppSidebar />
       <main className="w-full bg-accent">
         <Header />
